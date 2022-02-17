@@ -111,31 +111,35 @@ class StopWatchViewController: ViewController, UIPickerViewDelegate, UIPickerVie
         view.addSubview(pickerView)
         view.addSubview(label)
         
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: mySegmentedControl.bottomAnchor, constant: 5),
-            label.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
-            
-            mySegmentedControl.topAnchor.constraint(equalTo: layout.topAnchor),
-            mySegmentedControl.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
-            
-            pickerView.topAnchor.constraint(equalTo: label.bottomAnchor),
-            pickerView.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
-            
-            stopButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: 20),
-            stopButton.centerXAnchor.constraint(equalTo: layout.centerXAnchor),
-            stopButton.widthAnchor.constraint(equalToConstant: 80),
-            stopButton.heightAnchor.constraint(equalToConstant: 60),
-            
-            startButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: 20),
-            startButton.leadingAnchor.constraint(equalTo: stopButton.trailingAnchor,constant: 10),
-            startButton.widthAnchor.constraint(equalToConstant: 80),
-            startButton.heightAnchor.constraint(equalToConstant: 60),
-            
-            restartButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: 20),
-            restartButton.trailingAnchor.constraint(equalTo: stopButton.leadingAnchor, constant: -10),
-            restartButton.widthAnchor.constraint(equalToConstant: 80),
-            restartButton.heightAnchor.constraint(equalToConstant: 60),
-        ])
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.topAnchor.constraint(equalTo: mySegmentedControl.bottomAnchor, constant: 5).isActive = true
+        label.centerXAnchor.constraint(equalTo: layout.centerXAnchor).isActive = true
+
+        mySegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        mySegmentedControl.topAnchor.constraint(equalTo: layout.topAnchor).isActive = true
+        mySegmentedControl.centerXAnchor.constraint(equalTo: layout.centerXAnchor).isActive = true
+
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        pickerView.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
+        pickerView.centerXAnchor.constraint(equalTo: layout.centerXAnchor).isActive = true
+
+        stopButton.translatesAutoresizingMaskIntoConstraints = false
+        stopButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: 20).isActive = true
+        stopButton.centerXAnchor.constraint(equalTo: layout.centerXAnchor).isActive = true
+        stopButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        stopButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+
+        startButton.translatesAutoresizingMaskIntoConstraints = false
+        startButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: 20).isActive = true
+        startButton.leadingAnchor.constraint(equalTo: stopButton.trailingAnchor,constant: 10).isActive = true
+        startButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        startButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+
+        restartButton.translatesAutoresizingMaskIntoConstraints = false
+        restartButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: 20).isActive = true
+        restartButton.trailingAnchor.constraint(equalTo: stopButton.leadingAnchor, constant: -10).isActive = true
+        restartButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        restartButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 
 // MARK: PickerView
