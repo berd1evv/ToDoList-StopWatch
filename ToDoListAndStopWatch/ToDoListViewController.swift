@@ -49,6 +49,8 @@ class ToDoListViewController: ViewController, UITableViewDelegate, UITableViewDa
         present(alert, animated: true)
     }
     
+// MARK: TableView
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = numbers[indexPath.row]
@@ -119,7 +121,6 @@ class ToDoListViewController: ViewController, UITableViewDelegate, UITableViewDa
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: true)
-
         tableView.setEditing(editing, animated: true)
     }
 

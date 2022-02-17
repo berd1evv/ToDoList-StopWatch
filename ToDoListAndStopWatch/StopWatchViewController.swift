@@ -9,8 +9,6 @@ import UIKit
 
 class StopWatchViewController: ViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    let pickerView = UIPickerView()
-    
     var sec = 0
     var min = 0
     var hour = 0
@@ -23,70 +21,126 @@ class StopWatchViewController: ViewController, UIPickerViewDelegate, UIPickerVie
     var timer = Timer()
     
     var arr: [String] = []
+    
     func lazy() {
         for i in 0...59 {
             arr.append(String(i))
         }
     }
     
-    let restartButton = UIButton()
-    let stopButton = UIButton()
-    let startButton = UIButton()
-    let label = UILabel()
+// MARK: Components
     
-    override func viewDidLoad() {
-        view.backgroundColor = .white
-
-        lazy()
-        pickerView.isHidden = true
-        let mySegmentedControl = UISegmentedControl(items: ["StopWatch", "Timer"])
+    let pickerView: UIPickerView = {
+        let p = UIPickerView()
+        p.frame = CGRect(x: 30, y: 240, width: 360, height: 270)
+        return p
+    }()
+    
+    let restartButton: UIButton = {
+        let rb = UIButton()
+        rb.frame = CGRect(x: 60, y: 620, width: 80, height: 60)
+        rb.backgroundColor = .black
+        rb.setTitle("Restart", for: .normal)
+        rb.addTarget(self, action: #selector(restartButtonTapped), for: .touchUpInside)
+        rb.layer.cornerRadius = 30
+        return rb
+    }()
+    
+    let stopButton: UIButton = {
+        let sb = UIButton()
+        sb.frame = CGRect(x: 160, y: 620, width: 80, height: 60)
+        sb.backgroundColor = .black
+        sb.setTitle("Stop", for: .normal)
+        sb.addTarget(self, action: #selector(stopButtonTapped), for: .touchUpInside)
+        sb.layer.cornerRadius = 30
+        return sb
+    }()
+    
+    let startButton: UIButton = {
+        let stb = UIButton()
+        stb.frame = CGRect(x: 260, y: 620, width: 80, height: 60)
+        stb.backgroundColor = .black
+        stb.setTitle("Start", for: .normal)
+        stb.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        stb.layer.cornerRadius = 30
+        return stb
+    }()
+    
+    let label: UILabel = {
+        let l = UILabel()
+        l.frame = CGRect(x: 120, y: 180, width: 170, height: 60)
+        l.text = "00:00:00"
+        l.font = .systemFont(ofSize: 37)
+        return l
+    }()
+    
+    let mySegmentedControl: UISegmentedControl = {
+        let s = UISegmentedControl(items: ["StopWatch", "Timer"])
+        let mySegmentedControl = UISegmentedControl()
         let xPostion:CGFloat = 100
         let yPostion:CGFloat = 150
         let elementWidth:CGFloat = 200
         let elementHeight:CGFloat = 30
                
-        mySegmentedControl.frame = CGRect(x: xPostion, y: yPostion, width: elementWidth, height: elementHeight)
-        mySegmentedControl.selectedSegmentIndex = 0
-        mySegmentedControl.tintColor = .yellow
-        mySegmentedControl.backgroundColor = .white
-        mySegmentedControl.addTarget(self, action: #selector(self.segmentedValueChanged(_:)), for: .valueChanged)
-        view.addSubview(mySegmentedControl)
+        s.frame = CGRect(x: xPostion, y: yPostion, width: elementWidth, height: elementHeight)
+        s.selectedSegmentIndex = 0
+        s.tintColor = .yellow
+        s.backgroundColor = .white
+        s.addTarget(self, action: #selector(segmentedValueChanged(_:)), for: .valueChanged)
+        return s
+    }()
+    
+// MARK: ViewDidLoad
+    
+    override func viewDidLoad() {
+        view.backgroundColor = .white
         
+        let layout = view.layoutMarginsGuide
+
+        lazy()
+        pickerView.isHidden = true
         pickerView.dataSource = self
         pickerView.delegate = self
         
-        pickerView.frame = CGRect(x: 30, y: 240, width: 360, height: 270)
-
-        restartButton.frame = CGRect(x: 60, y: 620, width: 80, height: 60)
-        restartButton.backgroundColor = .black
-        restartButton.setTitle("Restart", for: .normal)
-        restartButton.addTarget(self, action: #selector(restartButtonTapped), for: .touchUpInside)
-        restartButton.layer.cornerRadius = 30
-        
-        stopButton.frame = CGRect(x: 160, y: 620, width: 80, height: 60)
-        stopButton.backgroundColor = .black
-        stopButton.setTitle("Stop", for: .normal)
-        stopButton.addTarget(self, action: #selector(stopButtonTapped), for: .touchUpInside)
-        stopButton.layer.cornerRadius = 30
-        
-        startButton.frame = CGRect(x: 260, y: 620, width: 80, height: 60)
-        startButton.backgroundColor = .black
-        startButton.setTitle("Start", for: .normal)
-        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
-        startButton.layer.cornerRadius = 30
-        
-        
-        label.frame = CGRect(x: 120, y: 180, width: 170, height: 60)
-        label.text = "00:00:00"
-        label.font = .systemFont(ofSize: 37)
-    
-        
+        view.addSubview(mySegmentedControl)
         view.addSubview(startButton)
         view.addSubview(stopButton)
         view.addSubview(restartButton)
         view.addSubview(pickerView)
         view.addSubview(label)
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.topAnchor.constraint(equalTo: mySegmentedControl.bottomAnchor, constant: 5).isActive = true
+        label.centerXAnchor.constraint(equalTo: layout.centerXAnchor).isActive = true
+        
+        mySegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        mySegmentedControl.topAnchor.constraint(equalTo: layout.topAnchor).isActive = true
+        mySegmentedControl.centerXAnchor.constraint(equalTo: layout.centerXAnchor).isActive = true
+        
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        pickerView.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
+        pickerView.centerXAnchor.constraint(equalTo: layout.centerXAnchor).isActive = true
+        
+        stopButton.translatesAutoresizingMaskIntoConstraints = false
+        stopButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: 20).isActive = true
+        stopButton.centerXAnchor.constraint(equalTo: layout.centerXAnchor).isActive = true
+        stopButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        stopButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        startButton.translatesAutoresizingMaskIntoConstraints = false
+        startButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: 20).isActive = true
+        startButton.leadingAnchor.constraint(equalTo: stopButton.trailingAnchor,constant: 10).isActive = true
+        startButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        startButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        restartButton.translatesAutoresizingMaskIntoConstraints = false
+        restartButton.topAnchor.constraint(equalTo: pickerView.bottomAnchor, constant: 20).isActive = true
+        restartButton.trailingAnchor.constraint(equalTo: stopButton.leadingAnchor, constant: -10).isActive = true
+        restartButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        restartButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
+
+// MARK: PickerView
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 3
@@ -109,6 +163,8 @@ class StopWatchViewController: ViewController, UIPickerViewDelegate, UIPickerVie
         sec1 = Int(val3) ?? 0
         
     }
+
+// MARK: Functions
     
     @objc func restartButtonTapped() {
         timer.invalidate()
