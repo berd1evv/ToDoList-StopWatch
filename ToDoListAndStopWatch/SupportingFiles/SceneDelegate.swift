@@ -22,14 +22,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             let window = UIWindow(windowScene: windowScene)
             let navController = UINavigationController()
-            let viewController = ViewController()
+            let viewController = TabBarViewController()
 
             navController.viewControllers = [viewController]
             window.rootViewController = viewController
             self.window = window
             window.makeKeyAndVisible()
         }
-        
         
     }
 

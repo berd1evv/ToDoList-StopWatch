@@ -7,9 +7,10 @@
 
 import UIKit
 
-class ToDoListViewController: ViewController, UITableViewDelegate, UITableViewDataSource {
+class ToDoListViewController: TabBarViewController {
     
-    var numbers : [String] = ["To Wash Dishes", "Take a shower", "Do homework"]
+    var data = [Lists]()
+    
     let tableView = UITableView()
     
     override func viewDidLoad() {
@@ -25,10 +26,19 @@ class ToDoListViewController: ViewController, UITableViewDelegate, UITableViewDa
         tableView.isEditing = false
         tableView.allowsMultipleSelection = true
 
+        configure()
     }
     
     override func viewDidLayoutSubviews() {
         tableView.frame = view.frame
+    }
+    
+    func configure() {
+        let models = ["To Wash Dishes", "Take a shower", "Do homework"]
+
+        for list in models {
+            data.append(Lists(list: list))
+        }
     }
     
     @objc func didTapAdd() {
@@ -41,19 +51,27 @@ class ToDoListViewController: ViewController, UITableViewDelegate, UITableViewDa
         alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { (_) in
             if let field = alert.textFields?.first {
                 if let text = field.text, !text.isEmpty {
-                    self.numbers.append(text)
+                    self.data.append(Lists(list: text))
                     self.tableView.reloadData()
                 }
             }
         }))
         present(alert, animated: true)
     }
-    
+
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: true)
+        tableView.setEditing(editing, animated: true)
+    }
+
+}
+
 // MARK: TableView
-    
+
+extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = numbers[indexPath.row]
+        cell.textLabel?.text = data[indexPath.row].list
         
         cell.imageView?.image = UIImage(systemName: "checkmark.circle")
         cell.accessoryType = .detailDisclosureButton
@@ -62,12 +80,12 @@ class ToDoListViewController: ViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numbers.count
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete{
-            numbers.remove(at: indexPath.row)
+            data.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
         }
     }
@@ -94,13 +112,13 @@ class ToDoListViewController: ViewController, UITableViewDelegate, UITableViewDa
                 field.placeholder = "Edit an Item"
                 field.returnKeyType = .done
             }
-            alert.textFields?.first?.text = self.numbers[indexPath.row]
+            alert.textFields?.first?.text = self.data[indexPath.row].list
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { (_) in
                 if let field = alert.textFields?.first {
                     if let text = field.text, !text.isEmpty {
-                        if let i = self.numbers.firstIndex(of: self.numbers[indexPath.row]) {
-                            self.numbers[i] = text
+                        if let i = self.data.firstIndex(of: self.data[indexPath.row]) {
+                            self.data[i].list = text
                         }
                         self.tableView.reloadData()
                     }
@@ -114,14 +132,8 @@ class ToDoListViewController: ViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedObject = numbers[sourceIndexPath.row]
-        numbers.remove(at: sourceIndexPath.row)
-        numbers.insert(movedObject, at: destinationIndexPath.row)
+        let movedObject = data[sourceIndexPath.row]
+        data.remove(at: sourceIndexPath.row)
+        data.insert(movedObject, at: destinationIndexPath.row)
     }
-    
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: true)
-        tableView.setEditing(editing, animated: true)
-    }
-
 }
