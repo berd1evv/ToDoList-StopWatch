@@ -10,18 +10,11 @@ import SnapKit
 
 class StopWatchViewController: TabBarViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    var model = StopWatchModel(hour: 0, min: 0, sec: 0, pickerHour: 0, pickerMin: 0, pickerSec: 0, picker: 0)
     var viewModel = StopWatchViewModel()
     
     var arr: [String] = []
     var timer = Timer()
     
-    
-    func lazy() {
-        for i in 0...59 {
-            arr.append(String(i))
-        }
-    }
     
 // MARK: COMPONENTS
     
@@ -92,7 +85,7 @@ class StopWatchViewController: TabBarViewController, UIPickerViewDelegate, UIPic
     override func viewDidLoad() {
         view.backgroundColor = .white
         
-        lazy()
+        arr = viewModel.lazy()
         pickerView.isHidden = true
         pickerView.dataSource = self
         pickerView.delegate = self

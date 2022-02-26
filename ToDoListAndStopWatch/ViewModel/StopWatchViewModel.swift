@@ -8,7 +8,7 @@
 import UIKit
 
 struct StopWatchViewModel {
-    var model = StopWatchModel(hour: 0, min: 0, sec: 0, pickerHour: 0, pickerMin: 0, pickerSec: 0, picker: 0)
+    var model = StopWatchModel(hour: 0, min: 0, sec: 0, pickerHour: 0, pickerMin: 0, pickerSec: 0, picker: 0, pickerValues: [])
     
     mutating func timerUpdated(pickerView: UIPickerView, label: UILabel, timer: Timer) {
         if model.picker == 0 {
@@ -136,5 +136,12 @@ struct StopWatchViewModel {
         model.pickerHour = Int(val1) ?? 0
         model.pickerMin = Int(val2) ?? 0
         model.pickerSec = Int(val3) ?? 0
+    }
+    
+    mutating func lazy() -> [String]{
+        for i in 0...59 {
+            model.pickerValues.append(String(i))
+        }
+        return model.pickerValues
     }
 }
