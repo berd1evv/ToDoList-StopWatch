@@ -9,7 +9,7 @@ import UIKit
 
 class ToDoListViewController: TabBarViewController {
     
-    var data = [Lists]()
+
     private let viewModel: ToDoListViewModelProtocol
     
     init(vm: ToDoListViewModelProtocol = ToDoListViewModel()) {
@@ -74,10 +74,7 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == UITableViewCell.EditingStyle.delete{
-            data.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
-        }
+        viewModel.editingStyle(tableView: tableView, editingStyle: editingStyle, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

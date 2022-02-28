@@ -16,6 +16,7 @@ protocol ToDoListViewModelProtocol {
     func dataCount() -> Int
     func editButtonTapped(tableView: UITableView, indexPath: IndexPath, sheet: UIAlertController, alert: UIAlertController)
     func moveRowAt(sourceIndexPath: IndexPath, destinationIndexPath: IndexPath)
+    func editingStyle(tableView: UITableView, editingStyle: UITableViewCell.EditingStyle, indexPath: IndexPath)
 }
 
 class ToDoListViewModel: ToDoListViewModelProtocol{
@@ -95,5 +96,12 @@ class ToDoListViewModel: ToDoListViewModelProtocol{
         let movedObject = data[sourceIndexPath.row]
         data.remove(at: sourceIndexPath.row)
         data.insert(movedObject, at: destinationIndexPath.row)
+    }
+    
+    func editingStyle(tableView: UITableView, editingStyle: UITableViewCell.EditingStyle, indexPath: IndexPath) {
+        if editingStyle == UITableViewCell.EditingStyle.delete{
+            data.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+        }
     }
 }
