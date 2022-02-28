@@ -34,30 +34,30 @@ class StopWatchViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     let restartButton: UIButton = {
         let rb = UIButton()
-        rb.backgroundColor = .black
-        rb.setTitle("Restart", for: .normal)
+        rb.tintColor = .black
+        rb.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 80), forImageIn: .normal)
+        rb.setImage(UIImage(systemName: "stop.circle.fill"), for: .normal)
         rb.addTarget(self, action: #selector(restartButtonTapped), for: .touchUpInside)
-        rb.layer.cornerRadius = 30
         rb.translatesAutoresizingMaskIntoConstraints = false
         return rb
     }()
     
     let stopButton: UIButton = {
         let sb = UIButton()
-        sb.backgroundColor = .black
-        sb.setTitle("Stop", for: .normal)
+        sb.tintColor = .black
+        sb.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 80), forImageIn: .normal)
+        sb.setImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         sb.addTarget(self, action: #selector(stopButtonTapped), for: .touchUpInside)
-        sb.layer.cornerRadius = 30
         sb.translatesAutoresizingMaskIntoConstraints = false
         return sb
     }()
     
     let startButton: UIButton = {
         let stb = UIButton()
-        stb.backgroundColor = .black
-        stb.setTitle("Start", for: .normal)
+        stb.tintColor = .black
+        stb.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 80), forImageIn: .normal)
+        stb.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
         stb.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
-        stb.layer.cornerRadius = 30
         stb.translatesAutoresizingMaskIntoConstraints = false
         return stb
     }()
@@ -189,22 +189,22 @@ class StopWatchViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         stopButton.snp.makeConstraints { make in
             make.top.equalTo(pickerView.snp.bottom).offset(50)
             make.centerX.equalToSuperview()
-            make.width.equalTo(80)
-            make.height.equalTo(60)
+            make.width.equalTo(90)
+            make.height.equalTo(85)
         }
         
         restartButton.snp.makeConstraints { make in
             make.top.equalTo(pickerView.snp.bottom).offset(50)
             make.right.equalTo(stopButton.snp.left).offset(-10)
-            make.width.equalTo(80)
-            make.height.equalTo(60)
+            make.width.equalTo(90)
+            make.height.equalTo(85)
         }
         
         startButton.snp.makeConstraints { make in
             make.top.equalTo(pickerView.snp.bottom).offset(50)
             make.left.equalTo(stopButton.snp.right).offset(10)
-            make.width.equalTo(80)
-            make.height.equalTo(60)
+            make.width.equalTo(90)
+            make.height.equalTo(85)
         }
     }
     
