@@ -8,11 +8,19 @@
 import UIKit
 import SnapKit
 
-class StopWatchViewController: TabBarViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class StopWatchViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    var viewModel = StopWatchViewModel()
+    private let viewModel: StopWatchProtocol
     
-    var arr: [String] = []
+    init(vm: StopWatchProtocol = StopWatchViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+    }
+    
     var timer = Timer()
     
     
@@ -85,7 +93,6 @@ class StopWatchViewController: TabBarViewController, UIPickerViewDelegate, UIPic
     override func viewDidLoad() {
         view.backgroundColor = .white
         
-        arr = viewModel.lazy()
         pickerView.isHidden = true
         pickerView.dataSource = self
         pickerView.delegate = self
@@ -99,6 +106,7 @@ class StopWatchViewController: TabBarViewController, UIPickerViewDelegate, UIPic
         view.addSubview(label)
         view.addSubview(imageView)
         
+        viewModel.lazy()
         setUpConstraints()
     }
     
@@ -110,17 +118,17 @@ class StopWatchViewController: TabBarViewController, UIPickerViewDelegate, UIPic
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return arr.count
+        return viewModel.arr.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return arr[row]
+        return viewModel.arr[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let val1 = arr[pickerView.selectedRow(inComponent: 0)]
-        let val2 = arr[pickerView.selectedRow(inComponent: 1)]
-        let val3 = arr[pickerView.selectedRow(inComponent: 2)]
+        let val1 = pickerView.selectedRow(inComponent: 0)
+        let val2 = pickerView.selectedRow(inComponent: 1)
+        let val3 = pickerView.selectedRow(inComponent: 2)
         viewModel.pickerViewUpdated(val1: val1, val2: val2, val3: val3)
     }
 

@@ -10,6 +10,16 @@ import UIKit
 class ToDoListViewController: TabBarViewController {
     
     var data = [Lists]()
+    private let viewModel: ToDoListViewModelProtocol
+    
+    init(vm: ToDoListViewModelProtocol = ToDoListViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+    }
     
     let tableView = UITableView()
     
@@ -19,6 +29,7 @@ class ToDoListViewController: TabBarViewController {
         title = "To Do List"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
         navigationItem.leftBarButtonItem = editButtonItem
+        
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
@@ -34,28 +45,13 @@ class ToDoListViewController: TabBarViewController {
     }
     
     func configure() {
-        let models = ["To Wash Dishes", "Take a shower", "Do homework"]
-
-        for list in models {
-            data.append(Lists(list: list))
-        }
+        viewModel.configureForLoop()
     }
+    
     
     @objc func didTapAdd() {
         let alert = UIAlertController(title: "New Item", message: "Enter New Item", preferredStyle: .alert)
-        alert.addTextField { field in
-            field.placeholder = "Enter Item"
-            field.returnKeyType = .done
-        }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { (_) in
-            if let field = alert.textFields?.first {
-                if let text = field.text, !text.isEmpty {
-                    self.data.append(Lists(list: text))
-                    self.tableView.reloadData()
-                }
-            }
-        }))
+        viewModel.didTapAdd(alert: alert, tableView: tableView)
         present(alert, animated: true)
     }
 
@@ -70,17 +66,11 @@ class ToDoListViewController: TabBarViewController {
 
 extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.row].list
-        
-        cell.imageView?.image = UIImage(systemName: "checkmark.circle")
-        cell.accessoryType = .detailDisclosureButton
-        
-        return cell
+        viewModel.cellForRowAt(indexPath: indexPath, tableView: tableView)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        viewModel.dataCount()
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -91,49 +81,22 @@ extension ToDoListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
-            if cell.imageView?.image == UIImage(systemName: "checkmark.circle") {
-                cell.imageView?.image = UIImage(systemName: "checkmark.circle.fill")
-            }
-            else{
-                cell.imageView?.image = UIImage(systemName: "checkmark.circle")
-            }
-        }
-        
+        viewModel.didSelectRow(indexPath: indexPath, tableView: tableView)
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let sheet = UIAlertController(title: .none, message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { item in
             let alert = UIAlertController(title: "Edit Item", message: "Edit New Item", preferredStyle: .alert)
-            alert.addTextField { field in
-                field.placeholder = "Edit an Item"
-                field.returnKeyType = .done
-            }
-            alert.textFields?.first?.text = self.data[indexPath.row].list
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { (_) in
-                if let field = alert.textFields?.first {
-                    if let text = field.text, !text.isEmpty {
-                        if let i = self.data.firstIndex(of: self.data[indexPath.row]) {
-                            self.data[i].list = text
-                        }
-                        self.tableView.reloadData()
-                    }
-                }
-            }))
+            self.viewModel.editButtonTapped(tableView: tableView, indexPath: indexPath, sheet: sheet, alert: alert)
             self.present(alert, animated: true)
-
         }))
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(sheet, animated: true)
+        
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedObject = data[sourceIndexPath.row]
-        data.remove(at: sourceIndexPath.row)
-        data.insert(movedObject, at: destinationIndexPath.row)
+        viewModel.moveRowAt(sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
     }
 }

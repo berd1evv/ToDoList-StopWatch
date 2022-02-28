@@ -7,10 +7,25 @@
 
 import UIKit
 
-struct StopWatchViewModel {
-    var model = StopWatchModel(hour: 0, min: 0, sec: 0, pickerHour: 0, pickerMin: 0, pickerSec: 0, picker: 0, pickerValues: [])
+protocol StopWatchProtocol {
+    var model: StopWatchModel {get set}
+    var arr: [String] {get set}
+    func timerUpdated(pickerView: UIPickerView, label: UILabel, timer: Timer)
+    func conditions(label: UILabel)
+    func segmentedValueHasChanged(sender: UISegmentedControl, pickerView: UIPickerView, label: UILabel, timer: Timer)
+    func startButtonTapped(pickerView: UIPickerView, timer: Timer)
+    func restartButtonTapped(pickerView: UIPickerView, label: UILabel, timer: Timer)
+    func stopButtonTapped(pickerView: UIPickerView, timer: Timer)
+    func pickerViewUpdated(val1: Int, val2: Int, val3: Int)
+    func lazy()
+}
+
+class StopWatchViewModel: StopWatchProtocol {
     
-    mutating func timerUpdated(pickerView: UIPickerView, label: UILabel, timer: Timer) {
+    var model = StopWatchModel(hour: 0, min: 0, sec: 0, pickerHour: 0, pickerMin: 0, pickerSec: 0, picker: 0)
+    var arr: [String] = []
+    
+    func timerUpdated(pickerView: UIPickerView, label: UILabel, timer: Timer) {
         if model.picker == 0 {
             model.sec += 1
             if model.min == 59 && model.sec == 60 {
@@ -61,7 +76,7 @@ struct StopWatchViewModel {
         }
     }
     
-    mutating func segmentedValueHasChanged(sender: UISegmentedControl, pickerView: UIPickerView, label: UILabel, timer: Timer){
+    func segmentedValueHasChanged(sender: UISegmentedControl, pickerView: UIPickerView, label: UILabel, timer: Timer){
         if sender.selectedSegmentIndex == 1 {
             pickerView.isHidden = false
             model.hour = 0
@@ -83,7 +98,7 @@ struct StopWatchViewModel {
         }
     }
     
-    mutating func startButtonTapped(pickerView: UIPickerView, timer: Timer) {
+    func startButtonTapped(pickerView: UIPickerView, timer: Timer) {
         timer.invalidate()
 
         if model.picker == 1 {
@@ -95,7 +110,7 @@ struct StopWatchViewModel {
         
     }
     
-    mutating func stopButtonTapped(pickerView: UIPickerView, timer: Timer) {
+    func stopButtonTapped(pickerView: UIPickerView, timer: Timer) {
         timer.invalidate()
 
         if model.picker == 1 {
@@ -111,7 +126,7 @@ struct StopWatchViewModel {
         }
     }
     
-    mutating func restartButtonTapped(pickerView: UIPickerView, label: UILabel, timer: Timer) {
+    func restartButtonTapped(pickerView: UIPickerView, label: UILabel, timer: Timer) {
         timer.invalidate()
 
         if model.picker == 1 {
@@ -132,16 +147,15 @@ struct StopWatchViewModel {
         label.text = "00:00:00"
     }
     
-    mutating func pickerViewUpdated(val1: String, val2: String, val3: String) {
-        model.pickerHour = Int(val1) ?? 0
-        model.pickerMin = Int(val2) ?? 0
-        model.pickerSec = Int(val3) ?? 0
+    func pickerViewUpdated(val1: Int, val2: Int, val3: Int) {
+        model.pickerHour = val1
+        model.pickerMin = val2
+        model.pickerSec = val3
     }
     
-    mutating func lazy() -> [String]{
+    func lazy(){
         for i in 0...59 {
-            model.pickerValues.append(String(i))
+            arr.append(String(i))
         }
-        return model.pickerValues
     }
 }
