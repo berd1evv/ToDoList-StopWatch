@@ -136,14 +136,17 @@ class StopWatchViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     @objc func restartButtonTapped() {
         viewModel.restartButtonTapped(pickerView: pickerView, label: label, timer: timer)
+        startButton.isEnabled = true
     }
     
     @objc func stopButtonTapped() {
         viewModel.stopButtonTapped(pickerView: pickerView, timer: timer)
+        startButton.isEnabled = true
     }
     
     @objc func startButtonTapped() {
         viewModel.startButtonTapped(pickerView: pickerView, timer: timer)
+        startButton.isEnabled = false
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
     }
     

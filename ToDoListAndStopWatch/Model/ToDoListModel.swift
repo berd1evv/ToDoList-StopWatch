@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct Lists: Equatable {
-    var list: String?
+struct ToDoListModel {
+    var title: String
+    var description: String
+    var checkmark: Bool = false
 }
 

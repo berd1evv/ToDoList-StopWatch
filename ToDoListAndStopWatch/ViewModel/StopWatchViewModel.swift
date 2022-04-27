@@ -100,14 +100,12 @@ class StopWatchViewModel: StopWatchProtocol {
     
     func startButtonTapped(pickerView: UIPickerView, timer: Timer) {
         timer.invalidate()
-
         if model.picker == 1 {
             pickerView.isHidden = true
             model.hour = model.pickerHour
             model.min = model.pickerMin
             model.sec = model.pickerSec
         }
-        
     }
     
     func stopButtonTapped(pickerView: UIPickerView, timer: Timer) {
