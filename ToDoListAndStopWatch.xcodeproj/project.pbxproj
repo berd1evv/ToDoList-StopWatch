@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A934ECE628190E0800D79735 /* ToDoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A934ECE528190E0800D79735 /* ToDoListViewModel.swift */; };
+		A934ECE828190F4A00D79735 /* AddNewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A934ECE728190F4A00D79735 /* AddNewCellViewModel.swift */; };
+		A934ECEA2819104100D79735 /* EditCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A934ECE92819104100D79735 /* EditCellViewModel.swift */; };
 		A9D750A92819094B008BCBE5 /* AddNewCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D750A82819094B008BCBE5 /* AddNewCellViewController.swift */; };
 		A9D750AB2819097C008BCBE5 /* EditCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D750AA2819097C008BCBE5 /* EditCellViewController.swift */; };
 		A9E9766327C5F3EB00685116 /* ToDoListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E9766227C5F3EB00685116 /* ToDoListModel.swift */; };
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		4E78BE0908960262A7062E84 /* Pods-ToDoListAndStopWatch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListAndStopWatch.debug.xcconfig"; path = "Target Support Files/Pods-ToDoListAndStopWatch/Pods-ToDoListAndStopWatch.debug.xcconfig"; sourceTree = "<group>"; };
 		59D7AE987330C7B80EA97FEE /* Pods_ToDoListAndStopWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoListAndStopWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A934ECE528190E0800D79735 /* ToDoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListViewModel.swift; sourceTree = "<group>"; };
+		A934ECE728190F4A00D79735 /* AddNewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCellViewModel.swift; sourceTree = "<group>"; };
+		A934ECE92819104100D79735 /* EditCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCellViewModel.swift; sourceTree = "<group>"; };
 		A9D750A82819094B008BCBE5 /* AddNewCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCellViewController.swift; sourceTree = "<group>"; };
 		A9D750AA2819097C008BCBE5 /* EditCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCellViewController.swift; sourceTree = "<group>"; };
 		A9E9766227C5F3EB00685116 /* ToDoListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListModel.swift; sourceTree = "<group>"; };
@@ -78,6 +84,9 @@
 		A9317EAC27C0BAA700F00DE1 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				A934ECE528190E0800D79735 /* ToDoListViewModel.swift */,
+				A934ECE728190F4A00D79735 /* AddNewCellViewModel.swift */,
+				A934ECE92819104100D79735 /* EditCellViewModel.swift */,
 				A9E9766827C5F79700685116 /* StopWatchViewModel.swift */,
 			);
 			path = ViewModel;
@@ -266,13 +275,16 @@
 				A9E9766927C5F79700685116 /* StopWatchViewModel.swift in Sources */,
 				A9ED8F4327B2345400CCEFB6 /* ToDoListViewController.swift in Sources */,
 				A9D750AB2819097C008BCBE5 /* EditCellViewController.swift in Sources */,
+				A934ECE828190F4A00D79735 /* AddNewCellViewModel.swift in Sources */,
 				A9E9766527C5F3FB00685116 /* StopWatchModel.swift in Sources */,
 				A9E9766327C5F3EB00685116 /* ToDoListModel.swift in Sources */,
+				A934ECE628190E0800D79735 /* ToDoListViewModel.swift in Sources */,
 				A9FE57B227B1A7D80044463E /* TabBarViewController.swift in Sources */,
 				A9FE57AE27B1A7D80044463E /* AppDelegate.swift in Sources */,
 				A9FE57B027B1A7D80044463E /* SceneDelegate.swift in Sources */,
 				A9ED8F4527B2346B00CCEFB6 /* StopWatchViewController.swift in Sources */,
 				A9D750A92819094B008BCBE5 /* AddNewCellViewController.swift in Sources */,
+				A934ECEA2819104100D79735 /* EditCellViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,10 +9,17 @@ import UIKit
 
 class AddNewCellViewController: UIViewController  {
     
-    var list = [ToDoListModel]()
+    private var viewModel: AddNewCellProtocol
     
-    var textValue: String = ""
+    init(vm: AddNewCellProtocol = AddNewCellViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
     
+    required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+    }
+        
     let textField1: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter text here!"
@@ -61,9 +68,9 @@ class AddNewCellViewController: UIViewController  {
     }
     
     @objc func saveButtonPressed() {
-        list.append(ToDoListModel(title: textField1.text ?? "", description: textField2.text ?? ""))
+        viewModel.list.append(ToDoListModel(title: textField1.text ?? "", description: textField2.text ?? ""))
         let name = Notification.Name("addNotification")
-        NotificationCenter.default.post(name: name, object: list)
+        NotificationCenter.default.post(name: name, object: viewModel.list)
 
         dismiss(animated: true, completion: nil)
     }

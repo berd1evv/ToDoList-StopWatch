@@ -9,7 +9,16 @@ import UIKit
 
 class EditCellViewController: UIViewController, UITextFieldDelegate  {
     
-    var isRead = false
+    var viewModel: EditCellProtocol
+    
+    init(vm: EditCellProtocol = EditCellViewModel()) {
+        viewModel = vm
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+    }
     
     let textField1: UITextField = {
         let textField = UITextField()
@@ -59,7 +68,7 @@ class EditCellViewController: UIViewController, UITextFieldDelegate  {
     }
     
     @objc func saveButtonPressed() {
-        let list = ToDoListModel(title: textField1.text ?? "", description: textField2.text ?? "", checkmark: isRead)
+        let list = ToDoListModel(title: textField1.text ?? "", description: textField2.text ?? "", checkmark: viewModel.isRead)
         let name1 = Notification.Name("editNotification")
         NotificationCenter.default.post(name: name1, object: list)
         
